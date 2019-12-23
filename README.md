@@ -1,6 +1,6 @@
 # ghaction-cmake
 
-This is a github action for projects that use cmake. It builds, tests
+This is a github action for projects that use conan and cmake. It builds, tests
 and installs the project. It can also be used to to run the tests with
 valgrind and clang sanitizers, and to run clang-tidy and clang-format
 on the source.
