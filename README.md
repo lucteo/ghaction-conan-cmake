@@ -5,6 +5,7 @@ and installs the project. It can also be used to to run the tests with
 valgrind and clang sanitizers, and to run clang-tidy and clang-format
 on the source.
 
+Based on [ghaction-cmake](https://github.com/lpenz/ghaction-cmake).
 
 ## Inputs
 
