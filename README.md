@@ -21,6 +21,10 @@ Compiler to use
 CFLAGS and CXXFLAGS environment variables. They can be used to enable
 sanitizers, coverage, etc.
 
+### `cmakeflags`
+
+Flags for ccmake. They can be used to properly configure the application being built.
+
 ### `ctestflags`
 
 Flags for ctest. `-D ExperimentalMemCheck`, for instance, enable test
@@ -41,7 +45,7 @@ Supported options: `clang-tidy` and `clang-format`.
 
 ## Example:
 
-The workflow below is a part of the one in [execpermfix](https://github.com/lpenz/execpermfix):
+The workflow below is a part of the one in [concore](https://github.com/lucteo/concore):
 
 ```yml
 ---
@@ -55,21 +59,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           cc: ${{ matrix.cc }}
   coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           coverage: codecov
   valgrind:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           ctestflags: '-D ExperimentalMemCheck'
   clang-sanitizers:
@@ -85,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           cc: clang
           cflags: ${{ matrix.cflags }}
@@ -93,14 +97,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           analyzer: clang-format
   clang-analyzers:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: docker://lpenz/ghaction-cmake:latest
+      - uses: docker://lucteo/ghaction-conan-cmake:latest
         with:
           analyzer: clang-tidy
 ```

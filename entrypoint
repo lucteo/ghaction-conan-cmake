@@ -32,7 +32,8 @@ fi
 if [ -n "$INPUT_ANALYZER" ]; then
     if [ "$INPUT_ANALYZER" = "clang-tidy" ]; then
         install_dependencies
-        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
+        conan install "$SRCDIR" --build=missing -s build_type=Release
+        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "$INPUT_CMAKEFLAGS" .
         find "$PWD" \( -name '*.[ch]' -o -name '*.cc' \) -exec clang-tidy -p "$PWD" {} +
     elif [ "$INPUT_ANALYZER" = "clang-format" ]; then
         find "$PWD" \( -name '*.[ch]' -o -name '*.cc' \) -exec clang-format -i {} +
@@ -50,7 +51,8 @@ else
     SRCDIR="$PWD"
     mkdir /tmp/_build /tmp/_install
     cd /tmp/_build
-    cmake -DCMAKE_INSTALL_PREFIX=/tmp/_install "$SRCDIR"
+    conan install "$SRCDIR" --build=missing -s build_type=Release
+    cmake -DCMAKE_INSTALL_PREFIX=/tmp/_install "$INPUT_CMAKEFLAGS" "$SRCDIR"
     make VERBOSE=1
     "${ctest[@]}"
     make install

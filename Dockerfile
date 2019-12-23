@@ -7,6 +7,8 @@ RUN set -x -e; \
     apt-get install -y --no-install-recommends \
         # build
         cmake pkg-config make gcc \
+        # conan
+        python3 python3-pip python3-setuptools \
         # coverage report
         curl \
         # clang and tools
@@ -17,6 +19,8 @@ RUN set -x -e; \
         valgrind \
         # base system (su)
         util-linux
+# instal conan from pip
+RUN python3 -m pip install conan
 
 # setup su for dep installation
 RUN sed -i '/pam_rootok.so$/aauth sufficient pam_permit.so' /etc/pam.d/su
