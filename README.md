@@ -1,4 +1,4 @@
-# ghaction-cmake
+# ghaction-conan-cmake
 
 This is a github action for projects that use conan and cmake. It builds, tests
 and installs the project. It can also be used to to run the tests with
