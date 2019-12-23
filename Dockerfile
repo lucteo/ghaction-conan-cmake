@@ -6,7 +6,7 @@ RUN set -x -e; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
         # build
-        cmake pkg-config make gcc \
+        cmake pkg-config make gcc g++ \
         # conan
         python3 python3-pip python3-setuptools \
         # coverage report

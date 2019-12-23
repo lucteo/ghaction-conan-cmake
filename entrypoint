@@ -11,6 +11,13 @@ else
 fi
 
 CC="$INPUT_CC"
+CXX="$INPUT_CC"
+if [ "$CXX" = "gcc" ]; then
+    CXX="g++"
+elif [ "$CXX" = "clang" ]; then
+    CXX="clang++"
+fi
+
 CFLAGS="$INPUT_CFLAGS"
 CXXFLAGS="$INPUT_CXXFLAGS"
 if [ -n "${INPUT_COVERAGE}" ]; then
@@ -45,6 +52,7 @@ if [ -n "$INPUT_ANALYZER" ]; then
 else
     install_dependencies
     export CC="$CC"
+    export CXX="$CXX"
     export CFLAGS="$CFLAGS"
     export CXXFLAGS="$CXXFLAGS"
 
