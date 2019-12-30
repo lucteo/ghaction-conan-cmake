@@ -39,11 +39,23 @@ fi
 if [ -n "$INPUT_ANALYZER" ]; then
     if [ "$INPUT_ANALYZER" = "clang-tidy" ]; then
         install_dependencies
+        export CC="clang"
+        export CXX="clang++"
+        export CFLAGS="$CFLAGS"
+        export CXXFLAGS="$CXXFLAGS"
+
+        SRCDIR="$PWD"
+        mkdir /tmp/_build /tmp/_install
+        cd /tmp/_build
         conan install "$SRCDIR" --build=missing -s build_type=Release
-        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "$INPUT_CMAKEFLAGS" .
-        find "$PWD" \( -name '*.[ch]' -o -name '*.cc' \) -exec clang-tidy -p "$PWD" {} +
+        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_INSTALL_PREFIX=/tmp/_install "$INPUT_CMAKEFLAGS" "$SRCDIR"
+
+        clang++ --version
+        find "$SRCDIR" \( -name '*.[ch]' -o -name '*.cc' -o -name '*.cpp' \) -exec clang-tidy -p "$PWD" {} +
+        echo "Done." >&2
     elif [ "$INPUT_ANALYZER" = "clang-format" ]; then
-        find "$PWD" \( -name '*.[ch]' -o -name '*.cc' \) -exec clang-format -i {} +
+        find "$PWD" \( -name '*.[ch]' -o -name '*.cc' -o -name '*.cpp' -o -name '*.hpp' \) -exec clang-format -i {} +
+        clang-format --dump-config
         git diff --exit-code
     else
         echo "Error: unknown analyzer $INPUT_ANALYZER" >&2
