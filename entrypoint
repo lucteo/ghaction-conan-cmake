@@ -55,7 +55,7 @@ if [ -n "$INPUT_ANALYZER" ]; then
         echo "Done." >&2
     elif [ "$INPUT_ANALYZER" = "clang-format" ]; then
         find "$PWD" \( -name '*.[ch]' -o -name '*.cc' -o -name '*.cpp' -o -name '*.hpp' \) -exec clang-format -i {} +
-        clang-format --dump-config
+        # clang-format --dump-config
         git diff --exit-code
     else
         echo "Error: unknown analyzer $INPUT_ANALYZER" >&2
