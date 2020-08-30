@@ -12,10 +12,12 @@ fi
 
 CC="$INPUT_CC"
 CXX="$INPUT_CC"
+CONAN_EXTRA_FLAGS="-s compiler=gcc -s compiler.libcxx=libstdc++11"
 if [ "$CXX" = "gcc" ]; then
     CXX="g++"
 elif [ "$CXX" = "clang" ]; then
     CXX="clang++"
+    CONAN_EXTRA_FLAGS="-s compiler=clang -s compiler.libcxx=libstdc++11"
 fi
 
 CFLAGS="$INPUT_CFLAGS"
@@ -43,11 +45,12 @@ if [ -n "$INPUT_ANALYZER" ]; then
         export CXX="clang++"
         export CFLAGS="$CFLAGS"
         export CXXFLAGS="$CXXFLAGS"
+        CONAN_EXTRA_FLAGS="-s compiler=clang -s compiler.libcxx=libstdc++11"
 
         SRCDIR="$PWD"
         mkdir /tmp/_build /tmp/_install
         cd /tmp/_build
-        conan install "$SRCDIR" --build=missing -s build_type=Release
+        conan install "$SRCDIR" --build=missing -s build_type=Release ${CONAN_EXTRA_FLAGS}
         cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_INSTALL_PREFIX=/tmp/_install "$INPUT_CMAKEFLAGS" "$SRCDIR"
 
         clang++ --version
@@ -71,7 +74,7 @@ else
     SRCDIR="$PWD"
     mkdir /tmp/_build /tmp/_install
     cd /tmp/_build
-    conan install "$SRCDIR" --build=missing -s build_type=Release
+    conan install "$SRCDIR" --build=missing -s build_type=Release ${CONAN_EXTRA_FLAGS}
     cmake -DCMAKE_INSTALL_PREFIX=/tmp/_install "$INPUT_CMAKEFLAGS" "$SRCDIR"
     make VERBOSE=1
     "${ctest[@]}"

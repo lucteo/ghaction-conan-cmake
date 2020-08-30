@@ -1,6 +1,6 @@
 ---
-name: ghaction-cmake
-description: 'Build and test using cmake'
+name: ghaction-conan-cmake
+description: 'Build and test using conan & cmake'
 branding:
   icon: 'compass'
   color: 'blue'
